@@ -8,7 +8,7 @@ export default function Add() {
   //post
   const handleClick = () => {
     axios
-      .post("http://localhost:3000/add", book)
+      .post("https://booknest-ef77.onrender.com/add", book)
       .then((response) => {
         console.log("Response:", response.data);
         navigate("/");
