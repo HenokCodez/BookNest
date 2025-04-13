@@ -6,20 +6,31 @@ import axios from "axios";
 function Home() {
   const [books, setBooks] = useState([]);
   const navigate = useNavigate(); // usage: navigate("/path")
-  //read
+  const MAX_DESCRIPTION_LENGTH = 100; // Set maximum length for description
+
+  // Read
   useEffect(() => {
     axios
       .get("http://localhost:3000/books")
       .then((res) => setBooks(res.data))
       .catch((err) => console.log("failed to fetch data", err));
   }, []);
-  //delete
+
+  // Delete
   async function handleDelete(id) {
     return axios
       .delete(`http://localhost:3000/books/${id}`)
       .then(() => console.log("Book deleted successfully!"))
       .catch((error) => console.error("Error deleting book:", error));
   }
+
+  // Truncate description if longer than MAX_DESCRIPTION_LENGTH
+  const truncateDescription = (text) => {
+    if (text.length > MAX_DESCRIPTION_LENGTH) {
+      return text.slice(0, MAX_DESCRIPTION_LENGTH) + "...";
+    }
+    return text;
+  };
 
   return (
     <div className="container">
@@ -33,20 +44,22 @@ function Home() {
               </div>
               <div className="bookInfo">
                 <h3>{book.title}</h3>
-                <p>{book.description}</p>
-                <button
-                  className="delete"
-                  onClick={() => {
-                    handleDelete(book.id);
-                    // Reload the page to reflect the changes
-                    window.location.reload();
-                  }}
-                >
-                  Delete
-                </button>
-                <Link to={`/update/${book.id}`}>
-                  <button className="update">Update</button>
-                </Link>
+                <p>{truncateDescription(book.description)}</p>
+                <div className="buttonContainer">
+                  <button
+                    className="delete"
+                    onClick={() => {
+                      handleDelete(book.id);
+                      // Reload the page to reflect the changes
+                      window.location.reload();
+                    }}
+                  >
+                    Delete
+                  </button>
+                  <Link to={`/update/${book.id}`}>
+                    <button className="update">Update</button>
+                  </Link>
+                </div>
               </div>
             </div>
           );
@@ -58,4 +71,5 @@ function Home() {
     </div>
   );
 }
+
 export default Home;
