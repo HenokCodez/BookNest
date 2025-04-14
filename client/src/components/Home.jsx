@@ -11,7 +11,7 @@ function Home() {
   // Read
   useEffect(() => {
     axios
-      .get("https://booknest-ef77.onrender.com/books")
+      .get("http://localhost:3000/books")
       .then((res) => setBooks(res.data))
       .catch((err) => console.log("failed to fetch data", err));
   }, []);
@@ -19,7 +19,7 @@ function Home() {
   // Delete
   async function handleDelete(id) {
     return axios
-      .delete(`https://booknest-ef77.onrender.com/books/${id}`)
+      .delete(`http://localhost:3000/books/${id}`)
       .then(() => console.log("Book deleted successfully!"))
       .catch((error) => console.error("Error deleting book:", error));
   }

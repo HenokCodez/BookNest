@@ -10,7 +10,7 @@ export default function Update() {
 
   async function handleUpdate(id, updatedBook) {
     return axios
-      .put(`https://booknest-ef77.onrender.com/books/${id}`, updatedBook)
+      .put(`http://localhost:3000/books/${id}`, updatedBook)
       .then(() => console.log("Book updated successfully!"))
       .catch((error) => console.error("Error updating book:", error));
   }
